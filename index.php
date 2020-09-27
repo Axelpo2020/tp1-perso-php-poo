@@ -5,6 +5,10 @@ function chargerClasse($classname)
   require $classname.'.php';
 }
 
+
+
+
+//44444
 spl_autoload_register('chargerClasse');
 
 $db = new PDO('mysql:host=localhost;dbname=personnages', 'root', 'root');
