@@ -4,7 +4,7 @@ class Personnage
   private $_id,
   $_degats,
   $_nom;
-
+//kkkk
   const CES_MOI = 1;
   const PERSONNAGE_TUE = 2;
   const PERSONNAGE_FRAPPE = 3;
