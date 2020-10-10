@@ -13,7 +13,7 @@ $manager = new PersonnagesManager($db);
 //Si on a voulu creer un personnage 
 if (isset($_POST['creer']) && isset($_POST['nom']))
 {
-    $perso = new Personnage(['nom'] => $_POST['nom']);
+    $perso = new Personnage(['nom' => $_POST['nom']]);
 
     if (!$perso->nomValide())
     {
@@ -22,7 +22,7 @@ if (isset($_POST['creer']) && isset($_POST['nom']))
     elseif ($manager->exists($perso->nom()))
     {
         $message = 'Ce nom est déja utilisé';
-        unset($perso) //destruction de la variable perso
+        unset($perso); //destruction de la variable perso
     }
     else 
     {
