@@ -5,7 +5,7 @@ class Personnage {
     $_degats;
 
     const CES_MOI = 1;
-    const PERSONNAGE_TUE = 1;
+    const PERSONNAGE_TUE = 2;
     const PERSONNAGE_FRAPPE = 3;
 
     public function __construct(array $donnees)
@@ -15,7 +15,7 @@ class Personnage {
 
     public function frapper(Personnage $perso)
     {
-        if ($perso->id() == $this->_id)
+        if ($perso->getId() == $this->_id)
         {
             return self::CES_MOI;
         }
@@ -46,8 +46,12 @@ class Personnage {
         return self::PERSONNAGE_FRAPPE;
     }
 
+    public function nomValide()
+    {
+      return !empty($this->_nom);
+    }
     //GETERS
-    public function getiId()
+    public function getId()
     {
         return $this->_id;
     }
@@ -64,7 +68,7 @@ class Personnage {
     public function setDegats($degats)
     {
         $degats = (int) $degats;
-        if ($degats >= 0 && degats <= 100)
+        if ($degats >= 0 && $degats <= 100)
         {
             $this->_degats = $degats;
         }
@@ -83,7 +87,7 @@ class Personnage {
     {
         if (is_string($nom))
         {
-            $this->$_nom = $nom;
+            $this->_nom = $nom;
         }
     }
 

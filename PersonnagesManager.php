@@ -9,10 +9,15 @@ class PersonnagesManager
         $this->setDb($db);
     }
 
+    public function setDb(PDO $db) 
+    {
+        $this->_db = $db;
+    }
+    
     public function add(Personnage $perso)
     {
-        $q = $this->_db->prepare('INSERT INTO personnages(nom) VALUES(:nom');
-        $q->bindValue(':nom', $perso->nom());
+        $q = $this->_db->prepare('INSERT INTO personnages(nom) VALUES(:nom)');
+        $q->bindValue(':nom', $perso->getNom());
         $q->execute();
 
         $perso->hydrate([
@@ -23,12 +28,12 @@ class PersonnagesManager
 
     public function count()
     {
-        return $this->_db->prepare('SELECT COUNT(*) FROM personnages')->fetchColumn();
+        return $this->_db->query('SELECT COUNT(*) FROM personnages')->fetchColumn();
     }
 
     public function delete(Personnage $perso)
     {
-        $this->_db->query('DELETE FROM personnages WHERE id '. = $perso->id());
+        $this->_db->query('DELETE FROM personnages WHERE id = ' .  $perso->getId());
     }
 
     public function exists($info)
@@ -36,7 +41,7 @@ class PersonnagesManager
         //Recherche du perso grace à son id
         if (is_int($info))
         {
-            return bool $this->_db->query('SELECT COUNT(*) FROM personnages WHERE id='. $info)->fetchColumn();
+            return (bool) $this->_db->query('SELECT COUNT(*) FROM personnages WHERE id = '.$info)->fetchColumn();
         }
         //Recherche du perso grace à sn nom
         $q = $this->_db->prepare('SELECT COUNT(*) FROM personnages WHERE nom = :nom');
@@ -63,7 +68,17 @@ class PersonnagesManager
         return new Personnage($q->fetch(PDO::FETCH_ASSOC));
       }
     }
+
     
+    public function update(Personnage $perso)
+    {
+      $q = $this->_db->prepare('UPDATE personnages SET degats = :degats WHERE id = :id');
+      
+      $q->bindValue(':degats', $perso->getDegats(), PDO::PARAM_INT);
+      $q->bindValue(':id', $perso->getId(), PDO::PARAM_INT);
+      
+      $q->execute();
+    }
     public function getList($nom)
     {
       $persos = [];
@@ -77,20 +92,5 @@ class PersonnagesManager
       }
       
       return $persos;
-    }
-    
-    public function update(Personnage $perso)
-    {
-      $q = $this->_db->prepare('UPDATE personnages SET degats = :degats WHERE id = :id');
-      
-      $q->bindValue(':degats', $perso->degats(), PDO::PARAM_INT);
-      $q->bindValue(':id', $perso->id(), PDO::PARAM_INT);
-      
-      $q->execute();
-    }
-
-    public function setDb(PDO $db) 
-    {
-        $this->$_db;
     }
 }
